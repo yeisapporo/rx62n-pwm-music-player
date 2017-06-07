@@ -90,7 +90,7 @@ void main(void)
 	//taskBeep();
 
 	taskPlaySound();
-//	taskVibrato();
+	taskVibrato();
 	
 	for(;;) {
 	
