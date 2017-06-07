@@ -147,6 +147,7 @@ int soundTable[][2] = {
 
 #else
 
+#if 0
 // チューリップ
 int soundTable[][2] = {	
 		{PITCH_3C_, 100},
@@ -211,6 +212,56 @@ int soundTable[][2] = {
 		{PITCH_3C_, 200},
 		{PITCH_RST, 200},
 };
+#else
+int soundTable[][2] = {	
+		{PITCH_2AS,  60},
+		
+		{PITCH_3G_, 240},
+		{PITCH_3F_,  60},
+		{PITCH_3G_,  60},
+		{PITCH_3F_, 180},
+		{PITCH_3DS, 120},
+		{PITCH_2AS,  60},
+		
+		{PITCH_3G_, 110},
+		{PITCH_3C_,  20},
+		{PITCH_3CS,  10},
+		{PITCH_2AS,  10},
+		{PITCH_3C_,  10},
+		{PITCH_3C_,  10},
+		{PITCH_4C_, 120},
+		{PITCH_3G_,  60},
+		{PITCH_3AS, 180},
+		{PITCH_3GS, 120},
+		{PITCH_3G_,  60},
+		
+		{PITCH_3F_, 180},
+		{PITCH_3G_, 120},
+		{PITCH_3D_,  60},
+		{PITCH_3DS, 180},
+		{PITCH_3C_, 180},
+		
+		{PITCH_2AS,  60},
+		{PITCH_4D_,  60},
+		{PITCH_4C_,  60},
+		{PITCH_3AS,  30},
+		{PITCH_3GS,  30},
+		{PITCH_3G_,  30},
+		{PITCH_2GS,  30},
+		{PITCH_3C_,  30},
+		{PITCH_3D_,  30},
+		{PITCH_3DS, 300},
+		
+//		{PITCH_RST, 0},
+		
+		
+		
+		
+
+		
+		
+};
+#endif
 
 #endif
 
@@ -247,7 +298,7 @@ void taskPlaySound(void)
 {
 	static int cursor = 0;
 
-	setTimer(soundTable[cursor][1] * 50, taskPlaySound);
+	setTimer(soundTable[cursor][1] * 75/* tempo */, taskPlaySound);
 		
 	MTU0.TGRC = gTGRC = 12 * gScaleTable[soundTable[cursor][0]] - 1;
 	MTU0.TGRD = gTGRD = 12 * gScaleTable[soundTable[cursor][0]] * 0.5 - 1;
@@ -262,7 +313,7 @@ void taskVibrato(void)
 	setTimer(5, taskVibrato);
 
 	if(gTGRD > 0) {
-		gTGRD -= 24;
+		gTGRD -= 12;
 	}
 	MTU0.TGRD = gTGRD;
 
