@@ -308,17 +308,18 @@ void taskPlaySound(void)
 	}
 }
 
-void taskVibrato(void)	// buggie
+void taskVibrato(void)
 {
-	static int direction = 5;
-	
+	static int cnt = 0;
+	static int variational = -32;
+
 	setTimer(5, taskVibrato);
 
-	gTGRD += direction;
-	if(gTGRD < 0 || gTGRD > 65535) {
-		direction = -direction;
+	gTGRD = MTU0.TGRD;
+	gTGRD += variational;
+	if(++cnt >= 256) {
+		cnt = 0;
+		variational = -variational;
 	}
-	
 	MTU0.TGRD = gTGRD;
-
 }
