@@ -20,6 +20,9 @@
       <Path>vect.h</Path>
       <Path>timer.c</Path>
       <Path>PlaySound.c</Path>
+      <Path>lowsrc.c</Path>
+      <Path>lowsrc.h</Path>
+      <Path>lowlvl.src</Path>
     </Files>
     <Device Series="RX">R5F562N8BxFP</Device>
     <BuildOptions Name="CC-RX" Version="V2.06.00">
@@ -31,6 +34,7 @@
           <Option>-isa=rxv1</Option>
           <Option>-fpu</Option>
           <Option>-lang=c</Option>
+          <Option>-include=.</Option>
           <Option>-output=obj</Option>
           <Option>-debug</Option>
           <Option>-nologo</Option>
@@ -72,8 +76,12 @@
           <Path>DefaultBuild\vecttbl.obj</Path>
           <Path>DefaultBuild\timer.obj</Path>
           <Path>DefaultBuild\PlaySound.obj</Path>
+          <Path>DefaultBuild\lowsrc.obj</Path>
+          <Path>DefaultBuild\lowlvl.obj</Path>
         </LinkOrder>
-        <CommonOptions />
+        <CommonOptions>
+          <IncludePathForC>.</IncludePathForC>
+        </CommonOptions>
       </BuildMode>
     </BuildOptions>
   </Project>

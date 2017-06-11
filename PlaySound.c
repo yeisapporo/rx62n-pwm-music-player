@@ -1,6 +1,8 @@
 #include "iodefine.h"
 #include "vect.h"
 #include <machine.h>
+//#include <stdio.h>
+//#include "lowsrc.h"
 
 
 enum {
@@ -294,6 +296,21 @@ void startPWM(void)
 	MTUA.TSTR.BIT.CST0 = 1;
 }
 
+void cutSound(void)
+{
+#if 1
+	MTU0.TGRC = gTGRC = 0;
+	MTU0.TGRD = gTGRD = 0;
+#else
+	MTU0.TGRC += 800;
+	MTU0.TGRD += 100;
+	
+	gTGRC = MTU0.TGRC;
+	gTGRD = MTU0.TGRD;
+#endif
+}
+
+#if 0
 void taskPlaySound(void)
 {
 	static int cursor = 0;
@@ -307,6 +324,39 @@ void taskPlaySound(void)
 		cursor = 0;
 	}
 }
+#else
+void taskPlaySound(void)
+{
+	static int cursor = 0;
+	int timeout;
+	int cut_time;
+
+	timeout = soundTable[cursor][1] * 75; /* tempo */
+	setTimer(timeout, taskPlaySound);
+	if(timeout > 800) {
+		cut_time = timeout - 800;
+	} else {
+		cut_time = 0;
+	}
+	if(cut_time != 0) {
+		setTimer(cut_time, cutSound);
+	}
+	
+	MTU0.TGRC = gTGRC = 12 * gScaleTable[soundTable[cursor][0]] - 1;
+	MTU0.TGRD = gTGRD = 12 * gScaleTable[soundTable[cursor][0]] * 0.5 - 1;
+
+///////////////// debug out //////////////
+//	printf("Note:%d:%d\n", soundTable[cursor][0], timeout);
+
+
+//////////////////////////////////////////
+	
+	if(++cursor == sizeof(soundTable) / sizeof(int) / 2) {
+		cursor = 0;
+	}
+	
+}
+#endif
 
 void taskVibrato(void)
 {
