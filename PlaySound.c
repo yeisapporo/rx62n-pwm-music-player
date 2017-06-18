@@ -360,16 +360,31 @@ void taskPlaySound(void)
 
 void taskVibrato(void)
 {
+#if 1
 	static int cnt = 0;
-	static int variational = -32;
+	static int variational = -4;
 
 	setTimer(5, taskVibrato);
 
+	gTGRC = MTU0.TGRC;
+	gTGRC += variational;
+	if(++cnt >= 128) {
+		cnt = 0;
+		variational = -variational;
+	}
+	MTU0.TGRC = gTGRC;
+#else
+	static int cnt = 0;
+	static int variational = -32;
+
+	setTimer(10, taskVibrato);
+
 	gTGRD = MTU0.TGRD;
 	gTGRD += variational;
-	if(++cnt >= 256) {
+	if(++cnt >= 128) {
 		cnt = 0;
 		variational = -variational;
 	}
 	MTU0.TGRD = gTGRD;
+#endif
 }
